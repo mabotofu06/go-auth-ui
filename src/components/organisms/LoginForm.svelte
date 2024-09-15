@@ -1,7 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import Input from '../atoms/Input.svelte';
-    import Button from '../atoms/Button.svelte';
+  import Button from '../atoms/Button.svelte';
+  import { loginStore } from '../../stores/loginStore';
   
   let userId = '';
   let password = '';
@@ -15,6 +16,8 @@
         errorMessage = 'Please enter both User ID and Password';
         return;
       }
+
+      loginStore.set({ username: userId });
   
       const response = await fetch('/api/login', {
         method: 'POST',
