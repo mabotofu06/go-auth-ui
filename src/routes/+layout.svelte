@@ -1,6 +1,5 @@
 <script>
 	import '../global.css';
-  export const prerender = true;
 </script>
 
 <header class="bg-gray-800 text-white text-3xl p-4">
