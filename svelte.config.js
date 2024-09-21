@@ -1,5 +1,5 @@
 import adapter from '@sveltejs/adapter-static';
-import preprocess from 'svelte-preprocess';
+import sveltePreprocess from 'svelte-preprocess';
 
 export default {
   kit: {
@@ -7,11 +7,19 @@ export default {
       // デフォルトのオプションを表示
       pages: 'build',
       assets: 'build',
-      fallback: 'index.html' // フォールバックページを設定
+      fallback: undefined, // フォールバックページを設定
+      precompress: false,
+      strict: true
     }),
-    prerender: {
-      entries: [] // すべてのページをプリレンダリング
-    }
   },
-  preprocess: preprocess()
+  preprocess: sveltePreprocess({
+    sourceMap: true,
+    defaults: {
+      script: 'typescript',
+      style: 'scss'
+    },
+    typescript: {
+      tsconfigFile: './tsconfig.json'
+    }
+  })
 };

@@ -1,8 +1,11 @@
 <script lang="ts">
+  export let className = '';
+
   import { onMount } from 'svelte';
-  import Input from '../atoms/Input.svelte';
   import Button from '../atoms/Button.svelte';
   import { loginStore } from '../../stores/loginStore';
+  import InputWithValidation from '../molcules/InputWithValidation.svelte';
+  import PasswordInput from '../molcules/PasswordInput.svelte';
   
   let userId = '';
   let password = '';
@@ -42,27 +45,28 @@
   });
   </script>
 
-<div class="flex flex-col items-center w-[700px] py-5">
-  <h1 class="text-gray-500 text-3xl mb-10">Login</h1>
+<div class={className}>
+  <div class="flex flex-col items-center w-[700px] py-5">
+    <h1 class="text-gray-500 text-3xl mb-10">Login</h1>
 
-  <Input
-    className="mb-2"
-    type="text"
-    placeholder="User ID / Email"
-    onChange={(value) => userId = value}
-  />
-  <Input
-    type="password"
-    placeholder="password"
-    onChange={(value) => password = value}
-  />
-  {#if errorMessage}
-  <p class="text-red-500">{errorMessage}</p>
-  {/if}
+    <InputWithValidation
+      className="w-96 mb-2"
+      type="text"
+      placeholder="User ID / Email"
+      onChange={(value) => userId = value}
+      onBlur={(value) => {return value.length > 0}}
+    />
+    <PasswordInput
+      className="w-96"
+      placeholder="password"
+      onChange={(value) => password = value}
+      onBlur={(value) => {return value.length > 0}}
+    />
 
-  <Button
-    className="mt-5"
-    label="Login"
-    onClick={handleLogin}
-  />
+    <Button
+      className="mt-5"
+      label="Login"
+      onClick={handleLogin}
+    />
+  </div>
 </div>

@@ -2,10 +2,12 @@
   import { onMount } from 'svelte';
   import Card from '../molcules/Card.svelte';
   import LoginForm from '../organisms/LoginForm.svelte';
-  import { loginStore } from '../../stores/loginStore';
+  import { loginStore } from '$lib/stores/loginStore';
+    import Modal from '../molcules/Modal.svelte';
 
   let currentUser:any;
-
+  let isModalOpen:boolean = false;
+  
   onMount(() => {
     // ストアの値を購読
     const unsubscribe = loginStore.subscribe(value => {
@@ -17,15 +19,32 @@
       unsubscribe();
     };
   });
+
+  const openModal = () => {
+    isModalOpen = true;
+  };
+
+  const closeModal = () => {
+    isModalOpen = false;
+  };
 </script>
 
 <div class="flex flex-col items-center py-10">
   <Card className="flex flex-col items-center w-[700px] border rounded-3xl py-5 shadow-md">
-    <LoginForm />
-    {#if currentUser}
-      <p>Welcome, {currentUser.username}!</p>
-    {/if}
-    <p>ユーザの新規登録は<a href="./">こちら</a></p>
-    <p>パスワードを忘れた方は<a href="./">こちら</a></p>
+    <LoginForm className="mb-24" />
+
+    <p class="text-xl mb-5"
+      on:click={openModal}
+    >初めての方</p>
+    <p class="text-xl mb-5"
+      on:click={openModal}
+    >パスワードを忘れた方</p>
   </Card>
 </div>
+
+<Modal
+  isOpen={isModalOpen}
+  onClose={closeModal}
+>
+  <p>これはモーダルの内容です。</p>
+</Modal>
