@@ -6,14 +6,26 @@
   import { loginStore } from '../../stores/loginStore';
   import InputWithValidation from '../molcules/InputWithValidation.svelte';
   import PasswordInput from '../molcules/PasswordInput.svelte';
+    import ErrorRibbon from '../molcules/ErrorRibbon.svelte';
+    import { errorMessageStore } from '$lib/stores/errorRibbonStore';
   
   let userId = '';
   let password = '';
   let errorMessage = '';
+
+  let showErrorMessage = false;
+  // ストアの値を監視し、変更があったときに showErrorMessage を更新
+  $: showErrorMessage = $errorMessageStore;
+
+  // showErrorMessage が true になったときに一定時間後に非表示にする
+  $: if (showErrorMessage) {
+    setTimeout(() => {
+      errorMessageStore.set(false);
+    }, 3000); // 3秒後にフェードアウト
+  }
   
   const handleLogin = async () => {
     console.table({userId, password});
-    // Perform login request here
     try {
       if (!userId || !password) {
         errorMessage = 'Please enter both User ID and Password';
@@ -31,15 +43,20 @@
       });
   
       if (response.ok) {
+        console.log("Login successful");
         // Login successful, redirect or perform any necessary actions
       } else {
         // Login failed, handle error
+        //TODO: バックエンドからのステータスに合わせてエラーメッセージを表示する
+        errorMessageStore.set(true);
+        console.log("Login failed");
       }
     } catch (error) {
       // Handle network or server error
+      console.log("unexpected error:", error);
     }
   };
-  
+
   onMount(() => {
     // Add any necessary initialization code here
   });
