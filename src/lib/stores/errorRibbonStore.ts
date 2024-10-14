@@ -1,3 +1,3 @@
 import { writable } from 'svelte/store';
 
-export const errorMessageStore = writable(false);
+export const errorMessageStore = writable("");

@@ -4,6 +4,7 @@
   import LoginForm from '../organisms/LoginForm.svelte';
   import { loginStore } from '$lib/stores/loginStore';
     import Modal from '../molcules/Modal.svelte';
+    import UserInfoForm from '../organisms/UserInfoForm.svelte';
 
   let currentUser:any;
   let isModalOpen:boolean = false;
@@ -43,8 +44,9 @@
 </div>
 
 <Modal
+  modalTitle="ユーザ新規登録"
   isOpen={isModalOpen}
   onClose={closeModal}
 >
-  <p>これはモーダルの内容です。</p>
+  <UserInfoForm/>
 </Modal>

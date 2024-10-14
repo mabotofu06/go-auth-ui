@@ -1,4 +1,5 @@
 <script lang="ts">
+  export let modalTitle: string;
   export let isOpen: boolean;
   export let onClose: () => void;
 
@@ -11,7 +12,7 @@
   <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
     <div class="bg-white p-3 rounded-lg shadow-lg">
       <div class="modal-title">
-        modal title
+        {modalTitle}
       </div>
       <hr/>
         <slot></slot>
