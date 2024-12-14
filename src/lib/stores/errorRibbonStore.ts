@@ -1,3 +1,3 @@
-import { writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 
-export const errorMessageStore = writable("");
+export const errorMessageStore: Writable<string> = writable("");

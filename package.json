@@ -13,13 +13,14 @@
 		"@sveltejs/adapter-static": "^3.0.5",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
+		"@tsconfig/svelte": "^5.0.4",
 		"autoprefixer": "^10.4.20",
 		"postcss": "^8.4.45",
-		"svelte": "^4.2.7",
+		"svelte": "^4.2.19",
 		"svelte-check": "^4.0.0",
-		"svelte-preprocess": "^6.0.2",
+		"svelte-preprocess": "^6.0.3",
 		"tailwindcss": "^3.4.11",
-		"typescript": "^5.0.0",
+		"typescript": "^5.7.2",
 		"vite": "^5.0.3"
 	},
 	"type": "module"

@@ -5,8 +5,7 @@
 
   let errorMessage: string;
 
-  $:errorMessage =$errorMessageStore;
-  
+  $:errorMessage = $errorMessageStore;
 </script>
 
 <header class="bg-gray-800 text-white text-3xl p-4">

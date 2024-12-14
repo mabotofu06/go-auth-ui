@@ -68,7 +68,7 @@
       onBlur={(value) => {return value.length > 0}}
     />
     <PasswordInput
-      className="w-96"
+      className="w-96 mb-1"
       placeholder="Password"
       onChange={(value) => password = value}
       onBlur={(value) => {return value.length > 0}}
