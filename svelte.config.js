@@ -10,7 +10,7 @@ export default {
       fallback: undefined, // フォールバックページを設定
       precompress: false,
       strict: true
-    }),
+    })
   },
   preprocess: sveltePreprocess({
     sourceMap: true,

@@ -1,25 +1,25 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import Button from '../atoms/Button.svelte';
-  import { loginStore } from '../../stores/loginStore';
   import InputWithValidation from '../molcules/InputWithValidation.svelte';
   import PasswordInput from '../molcules/PasswordInput.svelte';
   import { errorMessageStore } from '$lib/stores/errorRibbonStore';
+  import { authStore, clearAuthStore } from '$lib/stores/authStore';
 
-  export let className = '';
+  export let className: string = '';
   
-  let userId = '';
-  let password = '';
-  let errorMessage = '';
+  let userId: string = '';
+  let password: string = '';
+  let errorMessage: string = '';
   // ストアの値を監視し、変更があったときに showErrorMessage を更新
   $: errorMessage = $errorMessageStore;
 
   // showErrorMessage に値が設定されたときに一定時間後に非表示にする
   $: if (errorMessage !== "") {
-    setTimeout(() => {
-      errorMessageStore.set("");
-    }, 3000); // 3秒後にフェードアウト
-  }
+      setTimeout(() => {
+        errorMessageStore.set("");
+      }, 3000); // 3秒後にフェードアウト
+    }
   
   const handleLogin = async () => {
     console.table({userId, password});
@@ -29,7 +29,10 @@
         return;
       }
 
-      loginStore.set({ username: userId });
+      authStore.set("token")
+      window.location.href = "/";
+      return;
+
   
       const response = await fetch('/api/login', {
         method: 'POST',
@@ -43,10 +46,10 @@
         console.log("Login successful");
         // Login successful, redirect or perform any necessary actions
       } else {
-        // Login failed, handle error
         //TODO: バックエンドからのステータスに合わせてエラーメッセージを表示する
         errorMessageStore.set("ログインに失敗しました");
         console.log("Login failed");
+        clearAuthStore();
       }
     } catch (error) {
       // Handle network or server error

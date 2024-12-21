@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import Button from '../atoms/Button.svelte';
-  import { loginStore } from '../../stores/loginStore';
   import InputWithValidation from '../molcules/InputWithValidation.svelte';
   import PasswordInput from '../molcules/PasswordInput.svelte';
   import { errorMessageStore } from '$lib/stores/errorRibbonStore';
@@ -30,8 +29,8 @@
         return;
       }
 
-      loginStore.set({ username: userId });
-  
+      // setAuthStore("token")
+
       const response = await fetch('/api/user', {
         method: 'POST',
         headers: {
