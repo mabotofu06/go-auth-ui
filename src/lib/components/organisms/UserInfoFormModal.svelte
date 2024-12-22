@@ -1,12 +1,12 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import Button from '../atoms/Button.svelte';
   import InputWithValidation from '../molcules/InputWithValidation.svelte';
   import PasswordInput from '../molcules/PasswordInput.svelte';
   import { setErrorMessageStore } from '$lib/stores/errorRibbonStore';
-
-  export let className = '';
+  import Modal from '../molcules/Modal.svelte';
   
+  export let isModalOpen = false;
+
   let userId = '';
   let password = '';
   let passwordConfirm = '';
@@ -14,10 +14,12 @@
   const handleSubmit = async () => {
     console.table({userId, password, passwordConfirm});
     try {
+      //バリデーションチェック
       if (!userId || !password || !passwordConfirm) {
         setErrorMessageStore('modal', 'Please fill in all fields');
         return;
       }
+      
 
       // setAuthStore("token")
 
@@ -40,12 +42,22 @@
     }
   };
 
+  const closeModal = () => {
+    isModalOpen = false;
+  };
+
   onMount(() => {
     // Add any necessary initialization code here
   });
 </script>
 
-<div class={className}>
+<Modal
+  modalTitle="ユーザ新規登録"
+  isOpen={isModalOpen}
+  onReject={closeModal}
+  acceptBtnLabel="Submit"
+  onAccept={handleSubmit}
+>
   <div class="flex flex-col items-center w-[700px] py-8">
     <InputWithValidation
       className="w-96 mb-2"
@@ -66,11 +78,5 @@
       onChange={(value) => passwordConfirm = value}
       onBlur={(value) => {return value.length > 0}}
     />
-
-    <Button
-      className="mt-5"
-      label="Submit"
-      onClick={handleSubmit}
-    />
   </div>
-</div>
+</Modal>

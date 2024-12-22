@@ -1,11 +1,23 @@
 <script lang="ts">
-  export let message: string;
-  export let hidden: boolean;
+  import { errorMessageStore, type ErrorMessageStoreKey } from "$lib/stores/errorRibbonStore";
+  
+  export let msgTargetKey: ErrorMessageStoreKey = "top";
+  $: errMsgObj = $errorMessageStore;
+
+  // showErrorMessage に値が設定されたときに一定時間後に非表示にする
+  $: if (errMsgObj[msgTargetKey] && errMsgObj[msgTargetKey] !== "") {
+    setTimeout(() => {
+      errMsgObj[msgTargetKey] = "";
+      errorMessageStore.set(errMsgObj);
+    }, 3000); // 3秒後にフェードアウト
+  }
 </script>
 
-<div class={"error-ribbon bg-rose-500 py-3 text-2xl" + (hidden ? " hidden" : "")}>
-  {message}
-</div>
+{#if errMsgObj[msgTargetKey] && errMsgObj[msgTargetKey] !== ""}
+  <div class={"error-ribbon bg-rose-500 py-3 text-2xl"}>
+    {errMsgObj[msgTargetKey]}
+  </div>
+{/if}
 
 <style>
   .error-ribbon {
@@ -16,11 +28,6 @@
     opacity: 1;
     transition: opacity 3s ease-out;
     animation: fadeIn 0.5s ease-out;
-  }
-  .error-ribbon.hidden {
-    opacity: 0;
-    transition: opacity 3s ease-out;
-    /* animation: fadeOut 3s ease-out; */
   }
 
   @keyframes fadeIn {

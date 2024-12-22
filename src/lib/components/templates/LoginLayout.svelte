@@ -3,6 +3,7 @@
   import LoginForm from '../organisms/LoginForm.svelte';
   import Modal from '../molcules/Modal.svelte';
   import UserInfoForm from '../organisms/UserInfoForm.svelte';
+    import UserInfoFormModal from '../organisms/UserInfoFormModal.svelte';
 
   let isModalOpen:boolean = false;
   
@@ -23,17 +24,13 @@
 
     <p class="text-xl mb-5"
       on:click={openModal}
-    >初めての方</p>
+    >
+    初めての方
+    </p>
     <p class="text-xl mb-5"
       on:click={goPasswordResetPage}
     >パスワードを忘れた方</p>
   </Card>
 </div>
 
-<Modal
-  modalTitle="ユーザ新規登録"
-  isOpen={isModalOpen}
-  onClose={closeModal}
->
-  <UserInfoForm/>
-</Modal>
+<UserInfoFormModal isModalOpen={isModalOpen}/>

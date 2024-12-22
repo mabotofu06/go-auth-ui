@@ -3,12 +3,19 @@ import type { Handle } from '@sveltejs/kit';
 
 const SKIP_PATH_LIST = [
 	"/",
-	"/ResetPassword"
+	"/ResetPassword/"
 ]
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const response = await resolve(event);
+	const path = event.url.pathname;
 	console.log(event.cookies.getAll());
+	console.log(event.url.pathname);
+
+	if(path.startsWith("/api/")){
+		console.log("対向先への通信をおこないます")
+		return response;
+	}
 
 	if(SKIP_PATH_LIST.includes(event.url.pathname)){
 		console.log("ミドルウェアskip対象ページのため処理をおこないません")

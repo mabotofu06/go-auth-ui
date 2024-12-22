@@ -3,29 +3,19 @@
   import Button from '../atoms/Button.svelte';
   import InputWithValidation from '../molcules/InputWithValidation.svelte';
   import PasswordInput from '../molcules/PasswordInput.svelte';
-  import { errorMessageStore } from '$lib/stores/errorRibbonStore';
+  import { setErrorMessageStore } from '$lib/stores/errorRibbonStore';
   import { authStore, clearAuthStore } from '$lib/stores/authStore';
 
   export let className: string = '';
   
   let userId: string = '';
   let password: string = '';
-  let errorMessage: string = '';
-  // ストアの値を監視し、変更があったときに showErrorMessage を更新
-  $: errorMessage = $errorMessageStore;
-
-  // showErrorMessage に値が設定されたときに一定時間後に非表示にする
-  $: if (errorMessage !== "") {
-      setTimeout(() => {
-        errorMessageStore.set("");
-      }, 3000); // 3秒後にフェードアウト
-    }
   
   const handleLogin = async () => {
     console.table({userId, password});
     try {
       if (!userId || !password) {
-        errorMessageStore.set('Please enter both User ID and Password');
+        setErrorMessageStore('top', 'Please enter both User ID and Password');
         return;
       }
 
@@ -47,7 +37,7 @@
         // Login successful, redirect or perform any necessary actions
       } else {
         //TODO: バックエンドからのステータスに合わせてエラーメッセージを表示する
-        errorMessageStore.set("ログインに失敗しました");
+        setErrorMessageStore('top', "ログインに失敗しました");
         console.log("Login failed");
         clearAuthStore();
       }
