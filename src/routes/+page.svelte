@@ -4,11 +4,11 @@
     import { page } from "$app/stores";
     import PotalLayout from "$lib/components/templates/PotalLayout.svelte";
     import { onMount } from "svelte";
-    import { authStore } from "$lib/stores/authStore";
+    import { authStore, type AuthStore } from "$lib/stores/authStore";
     
 
     const queryParams = get(page).url.searchParams;
-    const token = queryParams.get('token') || $authStore
+    const token: AuthStore = $authStore
 
     onMount(()=>{
         console.log("redirect_uri :", queryParams.get('redirect_uri'));
@@ -32,7 +32,7 @@
 </script>
 
 <!-- ストアのセッション確認して存在しなければログイン画面を表示 -->
-{#if !token}
+{#if !token.session}
     <LoginLayout/>
 {:else}
     <PotalLayout/>

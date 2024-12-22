@@ -4,6 +4,7 @@
     import Modal from '../molcules/Modal.svelte';
 
   let isOpemLogoutModal = false;
+  let isOpenUserMenu = false;
   const token = $authStore
 
   const openLogoutModal = ()=>{
@@ -17,6 +18,12 @@
     clearAuthStore();
     window.location.href="/"
   }
+  const openUserMenu = ()=>{
+    isOpenUserMenu = true;
+  }
+  const navigateTo = (path: string) => {
+    window.location.href = path;
+  }
 </script>
 
 <header class="flex justify-between items-center bg-gray-800 text-white text-3xl p-4">
@@ -25,15 +32,29 @@
   >
     Global - Auth
 </button>
-  {#if token}
+  {#if token.session}
   <button
-    class="text-sm"
-    on:click={openLogoutModal}
+    class="text-sm hover:opacity-50"
+    on:click={openUserMenu}
   >
-    logout    
+    ようこそ {token.userId} さん
   </button>
   {/if}
 </header>
+{#if isOpenUserMenu}
+<div class="userMenu absolute right-0 flex flex-col  text-gray-600 fix min-w-28 text-xl border border-gray-400">
+  <button
+    class="py-2 hover:opacity-50"
+    on:click={()=>{isOpenUserMenu=false; navigateTo("/User")}}
+  >info</button>
+  <button
+    class="py-2 hover:opacity-50"
+    on:click={()=>{isOpenUserMenu=false; openLogoutModal()}}
+  >logout</button>
+
+</div>  
+{/if}
+
   <ErrorRibbon />
 
     <slot/>

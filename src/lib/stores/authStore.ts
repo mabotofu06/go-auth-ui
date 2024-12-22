@@ -1,24 +1,29 @@
 import type { RequestEvent } from '@sveltejs/kit';
-import { writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 const AUTH_STORE_KEY = "go-auth-store";
 
-const createAuthStore = (initValue: string) => {
+export interface AuthStore {
+  userId: string;
+  session: string;
+}
+
+const createAuthStore = (initValue: AuthStore): Writable<AuthStore> => {
   const initialValue
     = typeof window !== 'undefined'
-      ? (sessionStorage.getItem(AUTH_STORE_KEY) || initValue)
-      : "";
+      ? (JSON.parse(sessionStorage.getItem(AUTH_STORE_KEY)??"") || initValue)
+      : { userId: "", session: "" };
 
   const { subscribe, set, update } = writable(initialValue);
 
   return {
     subscribe,
-    set: (value: string) => {
+    set: (value: AuthStore) => {
       if(typeof window !== 'undefined'){
-        sessionStorage.setItem(AUTH_STORE_KEY, value);
+        sessionStorage.setItem(AUTH_STORE_KEY, JSON.stringify(value));
         set(value);
       }
       if(typeof document !== 'undefined'){
-        document.cookie = `${AUTH_STORE_KEY}=${value}`;
+        document.cookie = `${AUTH_STORE_KEY}=${JSON.stringify(value)}`;
       }
     },
     update: () => {
@@ -29,23 +34,24 @@ const createAuthStore = (initValue: string) => {
   };
 }
 
-export const authStore = createAuthStore("");
+export const authStore = createAuthStore({ userId: "", session: "" });
 
-export const getAuthStore = (): string=>{
+export const getAuthStore = (): AuthStore => {
+  const noData = { userId: "", session: "" };
   return typeof window !== 'undefined'
-    ? (sessionStorage.getItem(AUTH_STORE_KEY) ?? "")
-    : ""
+    ? (JSON.parse(sessionStorage.getItem(AUTH_STORE_KEY) ?? JSON.stringify(noData)))
+    : noData;
 }
 
-export const getSessionAuth = (event: RequestEvent): string | null => {
+export const getSessionAuth = (event: RequestEvent): AuthStore | null => {
   const session = event.cookies.get(AUTH_STORE_KEY)
   if (!session) return null;
   console.log(session);
-  return session;
+  return JSON.parse(session);
 }
 
 export const clearAuthStore = ()=>{
-  authStore.set("");
+  authStore.set({ userId: "", session: "" });
   if(typeof document !== "undefined"){
     document.cookie=`${AUTH_STORE_KEY}=;`;
   }

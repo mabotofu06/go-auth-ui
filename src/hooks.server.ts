@@ -22,7 +22,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return response;
 	}
 
-	if(!getSessionAuth(event)){
+	const session = getSessionAuth(event);
+
+	if(!session?.session){
 		console.log("認証情報がないためログインページに遷移します")
 		return new Response(null,{
 			status: 302,

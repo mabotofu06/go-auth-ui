@@ -19,11 +19,10 @@
         return;
       }
 
-      authStore.set("token")
+      authStore.set({ userId, session: 'dummy' });
       window.location.href = "/";
       return;
 
-  
       const response = await fetch('/api/login', {
         method: 'POST',
         headers: {
