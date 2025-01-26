@@ -12,6 +12,9 @@ export default {
       strict: true
     })
   },
+  prerender: {
+    default: true // すべてのページをプリレンダリング
+  },
   preprocess: sveltePreprocess({
     sourceMap: true,
     defaults: {

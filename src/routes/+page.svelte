@@ -7,12 +7,12 @@
     import { authStore, type AuthStore } from "$lib/stores/authStore";
     
 
-    const queryParams = get(page).url.searchParams;
+    //Sconst queryParams = get(page).url.searchParams;
     const token: AuthStore = $authStore
 
     onMount(()=>{
-        console.log("redirect_uri :", queryParams.get('redirect_uri'));
-        console.log("token :", queryParams.get('token'));
+        //console.log("redirect_uri :", queryParams.get('redirect_uri'));
+        //Sconsole.log("token :", queryParams.get('token'));
         console.log("url :", $page.url);
     })
 

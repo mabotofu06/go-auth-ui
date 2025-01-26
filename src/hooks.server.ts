@@ -5,7 +5,7 @@ const SKIP_PATH_LIST = [
 	"/",
 	"/ResetPassword/"
 ]
-
+/*
 export const handle: Handle = async ({ event, resolve }) => {
 	const response = await resolve(event);
 	const path = event.url.pathname;
@@ -49,3 +49,4 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	return response;
 };
+*/

@@ -7,10 +7,12 @@ export interface AuthStore {
   session: string;
 }
 
+const noData = { userId: "", session: "" };
+
 const createAuthStore = (initValue: AuthStore): Writable<AuthStore> => {
   const initialValue
     = typeof window !== 'undefined'
-      ? (JSON.parse(sessionStorage.getItem(AUTH_STORE_KEY)??"") || initValue)
+      ? (JSON.parse(sessionStorage.getItem(AUTH_STORE_KEY)??JSON.stringify(noData)) || initValue)
       : { userId: "", session: "" };
 
   const { subscribe, set, update } = writable(initialValue);
@@ -37,7 +39,6 @@ const createAuthStore = (initValue: AuthStore): Writable<AuthStore> => {
 export const authStore = createAuthStore({ userId: "", session: "" });
 
 export const getAuthStore = (): AuthStore => {
-  const noData = { userId: "", session: "" };
   return typeof window !== 'undefined'
     ? (JSON.parse(sessionStorage.getItem(AUTH_STORE_KEY) ?? JSON.stringify(noData)))
     : noData;
