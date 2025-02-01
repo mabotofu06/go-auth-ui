@@ -1,17 +1,12 @@
 <script lang="ts">
   import Card from '../molcules/Card.svelte';
   import LoginForm from '../organisms/LoginForm.svelte';
-  import Modal from '../molcules/Modal.svelte';
-  import UserInfoForm from '../organisms/UserInfoForm.svelte';
-    import UserInfoFormModal from '../organisms/UserInfoFormModal.svelte';
+  import UserInfoFormModal from '../organisms/UserInfoFormModal.svelte';
 
   let isModalOpen:boolean = false;
   
   const openModal = () => {
     isModalOpen = true;
-  };
-  const closeModal = () => {
-    isModalOpen = false;
   };
   const goPasswordResetPage = ()=>{
     window.location.href = "./ResetPassword"

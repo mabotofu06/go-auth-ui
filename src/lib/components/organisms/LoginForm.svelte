@@ -13,7 +13,6 @@
   
   const handleLogin = async () => {
     console.table({userId, password});
-    try {
       if (!userId || !password) {
         setErrorMessageStore('top', 'Please enter both User ID and Password');
         return;
@@ -30,27 +29,30 @@
         headers: {
           'Content-Type': 'application/json'
         },
+        //TODO: passwordをエンコード（環境変数の値から）
         body: JSON.stringify({ userId, password })
       });
   
-      if (response.ok) {
+    try {
+      const res: ResponseDTO<ResLoginDTO> = await response.json();
+      if(res.status === 200) {
         console.log("Login successful");
-        const data: {userId:string, token:string} = await response.json();
         authStore.set({
-          userId: data.userId,
-          session: data.token
+          userId: res.data.userId,
+          session: res.data.session
         });
         window.location.href = "/";
-        // Login successful, redirect or perform any necessary actions
-      } else {
+      }
+      else {
         //TODO: バックエンドからのステータスに合わせてエラーメッセージを表示する
-        setErrorMessageStore('top', "ログインに失敗しました");
-        console.log("Login failed");
+        setErrorMessageStore('top', res.message);
         clearAuthStore();
       }
     } catch (error) {
       // Handle network or server error
       console.log("unexpected error:", error);
+      setErrorMessageStore('top', "予期せぬエラーが発生しました");
+      clearAuthStore();
     }
   };
 
