@@ -19,9 +19,11 @@
         return;
       }
 
-      authStore.set({ userId, session: 'dummy' });
-      window.location.href = "/";
-      return;
+      if(false) {
+        authStore.set({ userId, session: 'dummy' });
+        window.location.href = "/";
+        return;
+      }
 
       const response = await fetch('/api/login', {
         method: 'POST',
@@ -33,6 +35,12 @@
   
       if (response.ok) {
         console.log("Login successful");
+        const data: {userId:string, token:string} = await response.json();
+        authStore.set({
+          userId: data.userId,
+          session: data.token
+        });
+        window.location.href = "/";
         // Login successful, redirect or perform any necessary actions
       } else {
         //TODO: バックエンドからのステータスに合わせてエラーメッセージを表示する
