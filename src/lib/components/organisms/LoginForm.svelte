@@ -5,12 +5,14 @@
   import PasswordInput from '../molcules/PasswordInput.svelte';
   import { setErrorMessageStore } from '$lib/stores/errorRibbonStore';
   import { authStore, clearAuthStore } from '$lib/stores/authStore';
+  import { page } from '$app/stores';
 
   export let className: string = '';
+  export let sessionId: string = '';
   
   let userId: string = '';
   let password: string = '';
-  
+
   const handleLogin = async () => {
     console.table({userId, password});
       if (!userId || !password) {
@@ -24,10 +26,11 @@
         return;
       }
 
-      const response = await fetch('/api/login', {
+      const response = await fetch('/api/v1/login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Session-Id': sessionId
         },
         //TODO: passwordをエンコード（環境変数の値から）
         body: JSON.stringify({ userId, password })

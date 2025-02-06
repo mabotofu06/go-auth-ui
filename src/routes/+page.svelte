@@ -10,13 +10,6 @@
     //Sconst queryParams = get(page).url.searchParams;
     const token: AuthStore = $authStore
 
-    onMount(()=>{
-        //console.log("redirect_uri :", queryParams.get('redirect_uri'));
-        //Sconsole.log("token :", queryParams.get('token'));
-        console.log("url :", $page.url);
-    })
-
-
     // go-auth認可ID要求フローを終えるように返されたヘッダ―情報をセッションストレージに保存
     //ログインリクエスト時にセットで送信し、
     // fetch(window.location.href).then(response => {
