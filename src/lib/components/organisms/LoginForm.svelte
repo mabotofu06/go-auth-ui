@@ -40,11 +40,11 @@
       const res: ResponseDTO<ResLoginDTO> = await response.json();
       if(res.status === 200) {
         console.log("Login successful");
-        authStore.set({
-          userId: res.data.userId,
-          session: res.data.session
-        });
-        window.location.href = "/";
+        // authStore.set({
+        //   userId: res.data.userId,
+        //   session: res.data.session
+        // });
+        window.location.href = `${res.data.redirectUri}?code=${res.data.code}&redirect_uri=${res.data.redirectUri}`;
       }
       else {
         //TODO: バックエンドからのステータスに合わせてエラーメッセージを表示する
