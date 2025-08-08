@@ -8,7 +8,9 @@
   let isModalOpen:boolean = false;
   let sessionId: string = '';
 
-  //http://localhost/?response_type=code&client_id=go0001&redirect_uri=http%3A%2F%2Flocalhst%3A3000%2FTop&scope=name&scope=email&state=hdsauhdbebejfs
+  //http://localhost/?response_type=code&client_id=MYS0000000&redirect_uri=http%3A%2F%2Flocalhost%2FTop&scope=name&scope=email&state=hdsauhdbebejfs
+  //http://localhost/?response_type=code&client_id=MYS0000001&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FTop&scope=name&scope=email&state=hdsauhdbebejfs
+  //http://localhost/?response_type=code&client_id=MYS0000002&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2FTop&scope=name&scope=email&state=hdsauhdbebejfs
   onMount(async ()=>{
     const query: string = $page.url.search;
     console.log("url :", $page.url.pathname);
