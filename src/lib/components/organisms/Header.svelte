@@ -13,7 +13,21 @@
   const closeLogoutModal = ()=>{
     isOpemLogoutModal = false;
   }
-  const logout = ()=>{
+  const logout = async ()=>{
+    const res = await fetch("/api/v1/token/delete", {
+      method: "DELETE",
+      headers: {
+      "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ token: token.session })
+    });
+    const resBody = await res.json();
+    if(resBody.status !== 200) {
+      console.error("Logout failed:", JSON.stringify(resBody));
+      return;
+    }
+
+    // ログアウト成功
     closeLogoutModal();
     clearAuthStore();
     window.location.href="/"

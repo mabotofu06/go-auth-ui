@@ -7,7 +7,7 @@
   export let rejectBtnLabel = "Close";
   export let acceptBtnLabel = "OK";
   export let onReject: () => void = () => {};
-  export let onAccept: () => void = () => {};
+  export let onAccept: () => Promise<void> = async () => {};
 </script>
 
 {#if isOpen}

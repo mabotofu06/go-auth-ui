@@ -8,7 +8,6 @@
   import { page } from '$app/stores';
 
   export let className: string = '';
-  export let sessionId: string = '';
   
   let userId: string = '';
   let password: string = '';
@@ -30,8 +29,8 @@
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Session-Id': sessionId
         },
+        credentials: 'include', // Include cookies in the request
         //TODO: passwordをエンコード（環境変数の値から）
         body: JSON.stringify({ userId, password })
       });
