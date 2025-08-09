@@ -20,7 +20,7 @@ export const reroute: Reroute = async ({ url, fetch }) => {
 		const data = (await res.json()).data;
 		// Handle access token response here
 		console.log('Access token response:', data);
-		authStore.set({userId: "test", session: data.access_token});
+		authStore.set({userId: data.user_id, session: data.access_token});
 		// Optionally store token in localStorage/sessionStorage
 		window.location.href = '/';
 	}
