@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { API_INFO, TOP_LINK } from '$lib/constants/api';
   import { authStore, clearAuthStore } from '$lib/stores/authStore';
     import ErrorRibbon from '../molcules/ErrorRibbon.svelte';
     import Modal from '../molcules/Modal.svelte';
@@ -14,7 +15,7 @@
     isOpemLogoutModal = false;
   }
   const logout = async ()=>{
-    const res = await fetch("/api/v1/token/delete", {
+    const res = await fetch(API_INFO.DELETE_TOKEN, {
       method: "DELETE",
       headers: {
       "Content-Type": "application/json"
@@ -30,7 +31,7 @@
     // ログアウト成功
     closeLogoutModal();
     clearAuthStore();
-    window.location.href="/"
+    window.location.href = TOP_LINK;
   }
   const openUserMenu = ()=>{
     isOpenUserMenu = true;

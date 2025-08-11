@@ -6,6 +6,7 @@
   import { setErrorMessageStore } from '$lib/stores/errorRibbonStore';
   import { authStore, clearAuthStore } from '$lib/stores/authStore';
   import { page } from '$app/stores';
+    import { API_INFO } from '$lib/constants/api';
 
   export let className: string = '';
   
@@ -25,7 +26,7 @@
         return;
       }
 
-      const response = await fetch('/api/v1/login', {
+      const response = await fetch(API_INFO.POST_LOGIN, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

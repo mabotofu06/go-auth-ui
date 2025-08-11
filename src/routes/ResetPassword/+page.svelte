@@ -2,9 +2,14 @@
     import Button from "$lib/components/atoms/Button.svelte";
     import Card from "$lib/components/molcules/Card.svelte";
     import InputWithValidation from "$lib/components/molcules/InputWithValidation.svelte";
+    import { TOP_LINK } from "$lib/constants/api";
+    import { onMount } from "svelte";
+
+    onMount(() => {
+        window.location.href = TOP_LINK;
+    });
 
     let isSend: boolean = false;
-
 </script>
 
 <div class="flex justify-center">

@@ -1,4 +1,5 @@
 //import { isLoading, isLogin, postId } from '$lib/stores/state';
+import { API_INFO } from "$lib/constants/api";
 import { authStore, type AuthStore } from "$lib/stores/authStore";
 import type { Reroute } from '@sveltejs/kit';
 
@@ -12,7 +13,7 @@ export const reroute: Reroute = async ({ url, fetch }) => {
 	const redirectUri = url.searchParams.get('redirect_uri');
 
 	if (code && redirectUri) {
-		const res = await fetch('/api/v1/access_token', {
+		const res = await fetch(API_INFO.GET_ACCESS_TOKEN, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ code, redirect_uri: redirectUri })
