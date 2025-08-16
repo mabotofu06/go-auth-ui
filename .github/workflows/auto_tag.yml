@@ -12,21 +12,21 @@ jobs:
       - name: Checkout (fetch all tags)
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-
+          fetch-depth: 1
+      #最新タグ状態検索
       - name: Get latest tag
         id: get_tag
         run: |
           git fetch --tags
           latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
           if [ -z "$latest_tag" ]; then
-            # タグが見つからなければ0.0.0スタート
+            # タグが見つからなければv0.0.0スタート
             echo "latest_tag=v0.0.0" >> $GITHUB_OUTPUT
           else
             # タグが見つかればそのまま
             echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
           fi
-
+      #タグカウントアップ（TODO:現状patchバージョンのカウントアップのみなので他もカウントアップされるよう考慮）
       - name: Calc next tag (patch version count up)
         id: calc
         run: |
@@ -37,7 +37,7 @@ jobs:
           next="v${major}.${minor}.${patch}"
           echo "Next tag: $next"
           echo "next_tag=$next" >> $GITHUB_OUTPUT
-
+      #タグ被り込みでタグの新規作成
       - name: Create tag (if not already tagged)
         run: |
           next="${{ steps.calc.outputs.next_tag }}"
