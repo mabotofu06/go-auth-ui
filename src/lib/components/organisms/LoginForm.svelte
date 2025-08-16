@@ -53,7 +53,6 @@
         credentials: 'include',
         body: JSON.stringify({ userId, password })
       });
-      logger.debug("HttOnlyのCookieが取れるか検証 sesid:", JSON.stringify(await cookieStore.get("sesid")));
 
     try {
       const resBody: ResponseDTO<ResLoginDTO> = await response.json();

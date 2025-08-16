@@ -1,4 +1,4 @@
-#!/usr/bin/
+#!/bin/bash
 
 ENV_NAME="${1:-localhost}"
 

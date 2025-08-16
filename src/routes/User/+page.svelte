@@ -26,7 +26,7 @@
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${sessionStorage.getItem("token")}`,
+                "Authorization": `Bearer ${token.session ?? ""}`,
                 "session": token.session ?? ""
             }
         });
