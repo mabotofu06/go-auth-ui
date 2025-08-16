@@ -1,5 +1,3 @@
-export const TOP_LINK = "http://localhost/?response_type=code&client_id=MYS0000000&redirect_uri=http%3A%2F%2Flocalhost&scope=name&scope=email&state=hdsauhdbebejfs";
-
 export const API_BASE_URL = '/api/v1';
 export const API_TIMEOUT = 5000;
 

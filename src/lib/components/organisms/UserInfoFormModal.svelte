@@ -5,6 +5,7 @@
   import { setErrorMessageStore } from '$lib/stores/errorRibbonStore';
   import Modal from '../molcules/Modal.svelte';
     import { API_INFO } from '$lib/constants/api';
+    import { logger } from '$lib/logger';
   
   export let isModalOpen = false;
 
@@ -14,15 +15,13 @@
   let passwordConfirm = '';
     
   const handleSubmit = async () => {
-    console.table({userId, userName, password, passwordConfirm});
+    logger.table({userId, userName, password, passwordConfirm});
     try {
       //バリデーションチェック
       if (!userId || !password || !passwordConfirm) {
-        setErrorMessageStore('modal', 'Please fill in all fields');
+        setErrorMessageStore('modal', '入力されていない項目があります');
         return;
       }
-
-      // setAuthStore("token")
 
       const response = await fetch(API_INFO.POST_USER, {
         method: 'POST',
@@ -35,16 +34,16 @@
       const resBody = await response.json();
 
       if (resBody.status === 200) {
-        console.log("User information submitted successfully");
+        logger.info("User information submitted successfully");
         closeModal();
         return;
       }
 
       setErrorMessageStore('modal', resBody.message);
-      console.error("Submission failed");
+      logger.error("Submission failed");
 
     } catch (error) {
-      console.error("unexpected error:", error);
+      logger.error("unexpected error:", error);
     }
   };
 

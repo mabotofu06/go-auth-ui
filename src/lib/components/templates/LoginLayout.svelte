@@ -1,33 +1,9 @@
 <script lang="ts">
-  import { page } from '$app/stores';
-  import { onMount } from 'svelte';
   import Card from '../molcules/Card.svelte';
   import LoginForm from '../organisms/LoginForm.svelte';
   import UserInfoFormModal from '../organisms/UserInfoFormModal.svelte';
-  import { API_INFO } from '$lib/constants/api';
 
   let isModalOpen:boolean = false;
-
-  //http://localhost/?response_type=code&client_id=MYS0000000&redirect_uri=http%3A%2F%2Flocalhost&scope=name&scope=email&state=hdsauhdbebejfs
-  //http://localhost/?response_type=code&client_id=MYS0000001&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FTop&scope=name&scope=email&state=hdsauhdbebejfs
-  //http://localhost/?response_type=code&client_id=MYS0000002&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2FTop&scope=name&scope=email&state=hdsauhdbebejfs
-  onMount(async ()=>{
-    const query: string = $page.url.search;
-    console.log("url :", $page.url.pathname);
-    console.log("params :", query);
-
-    try{
-      const res = await fetch(API_INFO.GET_PERMISSION + query, {method: 'GET'});
-      if(res.status === 200){
-        // セッションIDは読まない。必要ならサーバーがステータスやフラグだけ返す
-        console.log("permission ok");
-      }
-
-    }catch(error){
-      console.error("Error fetching headers:", error);
-    }
-  })
-
   
   const openModal = () => {
     isModalOpen = true;
@@ -46,7 +22,8 @@
     >
     初めての方
     </p>
-    <!-- <p class="text-xl mb-5"
+    <!-- 現段階ではリリース対象外
+     <p class="text-xl mb-5"
       on:click={goPasswordResetPage}
     >パスワードを忘れた方</p> -->
   </Card>

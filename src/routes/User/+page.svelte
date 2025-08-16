@@ -12,6 +12,7 @@
     import { onMount } from "svelte";
     import { authStore, type AuthStore } from "$lib/stores/authStore";
     import { API_INFO } from "$lib/constants/api";
+    import { logger } from "$lib/logger";
 
     const token: AuthStore = $authStore;
 
@@ -32,7 +33,7 @@
         const resBody = await response.json();
 
         if(resBody.status !== 200){
-            console.error("ユーザー情報の取得に失敗しました:", resBody);
+            logger.error("ユーザー情報の取得に失敗しました:", resBody);
         }
 
         userId = resBody.data.userId ?? null;

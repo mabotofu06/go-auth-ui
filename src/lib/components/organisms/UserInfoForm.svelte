@@ -4,6 +4,7 @@
   import InputWithValidation from '../molcules/InputWithValidation.svelte';
   import PasswordInput from '../molcules/PasswordInput.svelte';
   import { setErrorMessageStore } from '$lib/stores/errorRibbonStore';
+    import { logger } from '$lib/logger';
 
   export let className = '';
   
@@ -12,7 +13,7 @@
   let passwordConfirm = '';
     
   const handleSubmit = async () => {
-    console.table({userId, password, passwordConfirm});
+    logger.table({userId, password, passwordConfirm});
     try {
       if (!userId || !password || !passwordConfirm) {
         setErrorMessageStore('modal', 'Please fill in all fields');
@@ -30,13 +31,13 @@
       });
   
       if (response.ok) {
-        console.log("User information submitted successfully");
+        logger.info("User information submitted successfully");
       } else {
         setErrorMessageStore('modal', "Failed to submit user information");
-        console.log("Submission failed");
+        logger.error("Submission failed");
       }
     } catch (error) {
-      console.log("unexpected error:", error);
+      logger.error("unexpected error:", error);
     }
   };
 
