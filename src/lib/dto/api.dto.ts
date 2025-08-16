@@ -16,10 +16,9 @@ interface ReqLoginDTO {
 }
 
 interface ResLoginDTO {
-  userId : string;
-  session: string;
   code : string;
   redirectUri: string;
+  state: string;
 }
 
 interface ReqUserInfoDTO{}

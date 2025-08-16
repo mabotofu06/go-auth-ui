@@ -2,9 +2,14 @@
     import Button from "$lib/components/atoms/Button.svelte";
     import Card from "$lib/components/molcules/Card.svelte";
     import InputWithValidation from "$lib/components/molcules/InputWithValidation.svelte";
+    import { onMount } from "svelte";
+
+    onMount(() => {
+        //TODO:現段階では使わないためすぐリダイレクト
+        window.location.href = '/';
+    });
 
     let isSend: boolean = false;
-
 </script>
 
 <div class="flex justify-center">

@@ -24,9 +24,6 @@ const createAuthStore = (initValue: AuthStore): Writable<AuthStore> => {
         sessionStorage.setItem(AUTH_STORE_KEY, JSON.stringify(value));
         set(value);
       }
-      if(typeof document !== 'undefined'){
-        document.cookie = `${AUTH_STORE_KEY}=${JSON.stringify(value)}`;
-      }
     },
     update: () => {
       // const value = fn(get(store));
@@ -44,16 +41,9 @@ export const getAuthStore = (): AuthStore => {
     : noData;
 }
 
-export const getSessionAuth = (event: RequestEvent): AuthStore | null => {
-  const session = event.cookies.get(AUTH_STORE_KEY)
-  if (!session) return null;
-  console.log(session);
-  return JSON.parse(session);
-}
-
 export const clearAuthStore = ()=>{
   authStore.set({ userId: "", session: "" });
-  if(typeof document !== "undefined"){
-    document.cookie=`${AUTH_STORE_KEY}=;`;
+  if(typeof window !== "undefined"){
+    sessionStorage.removeItem(AUTH_STORE_KEY);
   }
 }

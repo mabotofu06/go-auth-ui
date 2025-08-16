@@ -4,41 +4,46 @@
   import PasswordInput from '../molcules/PasswordInput.svelte';
   import { setErrorMessageStore } from '$lib/stores/errorRibbonStore';
   import Modal from '../molcules/Modal.svelte';
+    import { API_INFO } from '$lib/constants/api';
+    import { logger } from '$lib/logger';
   
   export let isModalOpen = false;
 
   let userId = '';
+  let userName = '';
   let password = '';
   let passwordConfirm = '';
     
   const handleSubmit = async () => {
-    console.table({userId, password, passwordConfirm});
+    logger.table({userId, userName, password, passwordConfirm});
     try {
       //バリデーションチェック
       if (!userId || !password || !passwordConfirm) {
-        setErrorMessageStore('modal', 'Please fill in all fields');
+        setErrorMessageStore('modal', '入力されていない項目があります');
         return;
       }
-      
 
-      // setAuthStore("token")
-
-      const response = await fetch('/api/user', {
+      const response = await fetch(API_INFO.POST_USER, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ userId, password, passwordConfirm})
+        body: JSON.stringify({ userId, userName, password, passwordConfirm})
       });
-  
-      if (response.ok) {
-        console.log("User information submitted successfully");
-      } else {
-        setErrorMessageStore('modal', "Failed to submit user information");
-        console.log("Submission failed");
+
+      const resBody = await response.json();
+
+      if (resBody.status === 200) {
+        logger.info("User information submitted successfully");
+        closeModal();
+        return;
       }
+
+      setErrorMessageStore('modal', resBody.message);
+      logger.error("Submission failed");
+
     } catch (error) {
-      console.log("unexpected error:", error);
+      logger.error("unexpected error:", error);
     }
   };
 
@@ -64,6 +69,13 @@
       type="text"
       placeholder="User ID"
       onChange={(value) => userId = value}
+      onBlur={(value) => {return value.length > 0}}
+    />
+    <InputWithValidation
+      className="w-96 mb-2"
+      type="text"
+      placeholder="User Name"
+      onChange={(value) => userName = value}
       onBlur={(value) => {return value.length > 0}}
     />
     <PasswordInput

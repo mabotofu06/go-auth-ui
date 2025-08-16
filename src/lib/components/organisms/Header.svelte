@@ -1,44 +1,12 @@
-<script lang="ts">
-  import { authStore, clearAuthStore } from '$lib/stores/authStore';
-    import ErrorRibbon from '../molcules/ErrorRibbon.svelte';
-    import Modal from '../molcules/Modal.svelte';
-
-  let isOpemLogoutModal = false;
-  let isOpenUserMenu = false;
-  const token = $authStore
-
-  const openLogoutModal = ()=>{
-    isOpemLogoutModal = true;
-  }
-  const closeLogoutModal = ()=>{
-    isOpemLogoutModal = false;
-  }
-  const logout = ()=>{
-    closeLogoutModal();
-    clearAuthStore();
-    window.location.href="/"
-  }
-  const openUserMenu = ()=>{
-    isOpenUserMenu = true;
-  }
-  const navigateTo = (path: string) => {
-    window.location.href = path;
-  }
-</script>
-
 <header class="flex justify-between items-center bg-gray-800 text-white text-3xl p-4">
   <button
     on:click={()=>{window.location.href="/"}}
-  >
-    Global - Auth
-</button>
+  >Global - Auth</button>
   {#if token.session}
   <button
     class="text-sm hover:opacity-50"
     on:click={openUserMenu}
-  >
-    ようこそ {token.userId} さん
-  </button>
+  >ようこそ {token.userId} さん</button>
   {/if}
 </header>
 {#if isOpenUserMenu}
@@ -54,11 +22,8 @@
 
 </div>  
 {/if}
-
   <ErrorRibbon />
-
     <slot/>
-
   <Modal
     modalTitle="ログアウト確認"
     isOpen={isOpemLogoutModal}
@@ -67,3 +32,47 @@
   >
   <h1 class="text-2xl m-5">ログアウトしますか？</h1>
 </Modal>
+
+<script lang="ts">
+  import { API_INFO } from '$lib/constants/api';
+  import { logger } from '$lib/logger';
+  import { authStore, clearAuthStore } from '$lib/stores/authStore';
+  import ErrorRibbon from '../molcules/ErrorRibbon.svelte';
+  import Modal from '../molcules/Modal.svelte';
+
+  let isOpemLogoutModal = false;
+  let isOpenUserMenu = false;
+  const token = $authStore
+
+  const openLogoutModal = ()=>{
+    isOpemLogoutModal = true;
+  }
+  const closeLogoutModal = ()=>{
+    isOpemLogoutModal = false;
+  }
+  const logout = async ()=>{
+    const res = await fetch(API_INFO.DELETE_TOKEN, {
+      method: "DELETE",
+      headers: {
+      "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ token: token.session })
+    });
+    const resBody = await res.json();
+    if(resBody.status !== 200) {
+      logger.error("Logout failed:", JSON.stringify(resBody));
+      return;
+    }
+
+    // ログアウト成功
+    closeLogoutModal();
+    clearAuthStore();
+    window.location.href = '/';
+  }
+  const openUserMenu = ()=>{
+    isOpenUserMenu = true;
+  }
+  const navigateTo = (path: string) => {
+    window.location.href = path;
+  }
+</script>
